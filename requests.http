@@ -1,0 +1,107 @@
+### 과제 2. 요청 예시 (IntelliJ HTTP Client)
+### 사용법: 각 ### 블록 왼쪽의 초록색 화살표를 눌러 실행하세요.
+### 먼저 여러분의 서버를 8080 포트로 실행하세요. (Docker나 다른 서버는 필요 없습니다.)
+
+@host = http://localhost:8080
+
+### S1. 정상 승인 → 200, fee: 250, remainingLimit: 950000 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-1001",
+  "userId": "U-1",
+  "amount": 50000,
+  "grade": "GOLD",
+  "payType": "DOMESTIC"
+}
+
+### S2. 같은 결제 ID로 다시 승인 요청 → 409 DUPLICATE_PAYMENT 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-1001",
+  "userId": "U-1",
+  "amount": 50000,
+  "grade": "GOLD",
+  "payType": "DOMESTIC"
+}
+
+### 한도 조회 → usedAmount: 50000 기대
+GET {{host}}/api/v1/users/U-1/limit
+
+### S7. 입력 오류 (금액 0) → 400 INVALID_REQUEST 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-1002",
+  "userId": "U-1",
+  "amount": 0,
+  "grade": "GOLD",
+  "payType": "DOMESTIC"
+}
+
+### S8. 결제 취소 → 200 + 한도 복원 기대
+POST {{host}}/api/v1/payments/P-1001/cancel
+
+### 없는 결제 취소 → 404 PAYMENT_NOT_FOUND 기대
+POST {{host}}/api/v1/payments/NO-SUCH-ID/cancel
+
+### S10. 취소한 결제 ID로 다시 승인 → 409 기대 (ID 재사용 불가)
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-1001",
+  "userId": "U-1",
+  "amount": 1000,
+  "grade": "BASIC",
+  "payType": "DOMESTIC"
+}
+
+### S6. 한도 경계: 정확히 1,000,000원 승인 → 200 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-2001",
+  "userId": "U-2",
+  "amount": 1000000,
+  "grade": "BASIC",
+  "payType": "DOMESTIC"
+}
+
+### S6. 이어서 1원 요청 → 422 LIMIT_EXCEEDED 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-2002",
+  "userId": "U-2",
+  "amount": 1,
+  "grade": "BASIC",
+  "payType": "DOMESTIC"
+}
+
+### S12. 수수료 계산 예시 → fee: 250 기대 (승인 API의 fee와 같아야 함)
+GET {{host}}/api/v1/fees?grade=GOLD&payType=DOMESTIC&amount=50000
+
+### S12. 수수료 면제 경계 → fee: 0 기대 (1,000원 미만)
+GET {{host}}/api/v1/fees?grade=BASIC&payType=DOMESTIC&amount=999
+
+### S12. 수수료 최소값 → fee: 100 기대
+GET {{host}}/api/v1/fees?grade=BASIC&payType=DOMESTIC&amount=1000
+
+### S12. 수수료 고액 감면 경계 → fee: 8000 기대 (1,000,000원 이상)
+GET {{host}}/api/v1/fees?grade=BASIC&payType=DOMESTIC&amount=1000000
+
+### S12. 수수료 상한 → fee: 50000 기대
+GET {{host}}/api/v1/fees?grade=BASIC&payType=OVERSEAS&amount=10000000
+
+### S12. VIP 국내는 면제 → fee: 0 기대
+GET {{host}}/api/v1/fees?grade=VIP&payType=DOMESTIC&amount=5000000
+
+### S7. 수수료 API 입력 오류 → 400 기대
+GET {{host}}/api/v1/fees?grade=GOLD&payType=DOMESTIC&amount=-5

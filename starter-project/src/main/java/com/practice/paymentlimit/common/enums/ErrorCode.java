@@ -1,4 +1,4 @@
-package com.practice.paymentlimit.payment;
+package com.practice.paymentlimit.common.enums;
 
 /** 에러 응답의 {@code code} 값. 계약이므로 이름을 바꾸지 않습니다. */
 public enum ErrorCode {

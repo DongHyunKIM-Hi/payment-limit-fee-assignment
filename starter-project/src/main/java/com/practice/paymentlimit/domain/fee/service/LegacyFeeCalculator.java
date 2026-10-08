@@ -1,7 +1,7 @@
-package com.practice.paymentlimit.fee;
+package com.practice.paymentlimit.domain.fee.service;
 
-import com.practice.paymentlimit.payment.Grade;
-import com.practice.paymentlimit.payment.PayType;
+import com.practice.paymentlimit.common.enums.Grade;
+import com.practice.paymentlimit.common.enums.PayType;
 import org.springframework.stereotype.Component;
 
 /**

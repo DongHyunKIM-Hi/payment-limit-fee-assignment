@@ -1,5 +1,7 @@
-package com.practice.paymentlimit.payment;
+package com.practice.paymentlimit.common.exception;
 
+import com.practice.paymentlimit.common.enums.ErrorCode;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -9,16 +11,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import jakarta.validation.ConstraintViolationException;
-
 /** 계약의 에러 응답 형식({@link ErrorResponse})으로 예외를 일관되게 변환합니다. */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorResponse> handleApiException(ApiException e) {
-        return ResponseEntity.status(e.status())
-                .body(ErrorResponse.of(e.code(), e.getMessage(), e.paymentId()));
+        return ResponseEntity.status(e.getStatus())
+                .body(ErrorResponse.of(e.getCode(), e.getMessage(), e.getPaymentId()));
     }
 
     @ExceptionHandler({

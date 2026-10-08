@@ -1,8 +1,16 @@
-package com.practice.paymentlimit.payment;
+package com.practice.paymentlimit.domain.payment.controller;
 
-import com.practice.paymentlimit.fee.LegacyFeeCalculator;
-import com.practice.paymentlimit.limit.LimitStore;
+import com.practice.paymentlimit.common.enums.Grade;
+import com.practice.paymentlimit.common.enums.PayType;
+import com.practice.paymentlimit.domain.fee.model.response.FeeQueryResponse;
+import com.practice.paymentlimit.domain.fee.service.LegacyFeeCalculator;
+import com.practice.paymentlimit.domain.payment.model.request.PaymentRequest;
+import com.practice.paymentlimit.domain.payment.model.response.CancelResponse;
+import com.practice.paymentlimit.domain.payment.model.response.LimitResponse;
+import com.practice.paymentlimit.domain.payment.model.response.PaymentApprovedResponse;
+import com.practice.paymentlimit.domain.payment.repository.LimitStore;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -12,15 +20,11 @@ import org.springframework.web.bind.annotation.*;
  * 읽고 구현하세요. 필요한 만큼 서비스·도메인 클래스를 자유롭게 추가해도 됩니다.
  */
 @RestController
+@RequiredArgsConstructor
 public class PaymentController {
 
     private final LimitStore limitStore;
     private final LegacyFeeCalculator legacyFeeCalculator;
-
-    public PaymentController(LimitStore limitStore, LegacyFeeCalculator legacyFeeCalculator) {
-        this.limitStore = limitStore;
-        this.legacyFeeCalculator = legacyFeeCalculator;
-    }
 
     @PostMapping("/api/v1/payments")
     public PaymentApprovedResponse approve(@Valid @RequestBody PaymentRequest request) {

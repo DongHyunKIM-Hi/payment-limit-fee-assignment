@@ -1,4 +1,4 @@
-package com.practice.paymentlimit.limit;
+package com.practice.paymentlimit.common.enums;
 
 /**
  * 이 클래스는 수정하지 않습니다.

@@ -1,8 +1,11 @@
-package com.practice.paymentlimit.payment;
+package com.practice.paymentlimit.common.exception;
 
+import com.practice.paymentlimit.common.enums.ErrorCode;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 /** 계약에 정의된 에러 상황(400/404/409/422)을 표현하는 예외. */
+@Getter
 public class ApiException extends RuntimeException {
 
     private final HttpStatus status;
@@ -14,17 +17,5 @@ public class ApiException extends RuntimeException {
         this.status = status;
         this.code = code;
         this.paymentId = paymentId;
-    }
-
-    public HttpStatus status() {
-        return status;
-    }
-
-    public ErrorCode code() {
-        return code;
-    }
-
-    public String paymentId() {
-        return paymentId;
     }
 }

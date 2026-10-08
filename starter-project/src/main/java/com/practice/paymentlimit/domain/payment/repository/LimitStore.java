@@ -1,5 +1,6 @@
-package com.practice.paymentlimit.limit;
+package com.practice.paymentlimit.domain.payment.repository;
 
+import com.practice.paymentlimit.common.entity.PaymentRecord;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -47,7 +48,7 @@ public class LimitStore {
      */
     public void savePayment(PaymentRecord record) {
         delay();
-        payments.put(record.paymentId(), record);
+        payments.put(record.getPaymentId(), record);
     }
 
     /** 테스트에서만 사용합니다. 저장소를 완전히 비웁니다. */

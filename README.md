@@ -100,32 +100,7 @@
 
 아래 그림은 서버 안에서 요청이 처리되는 구조입니다. 파란색은 직접 구현할 부분, 주황색은 리팩토링할 부분, 회색은 수정할 수 없는 부분입니다.
 
-```mermaid
-flowchart LR
-    A["요청을 보내는 쪽<br/>(Swagger / curl)"]
-
-    subgraph SERVER["완성할 서버 (:8080)"]
-        B["결제 컨트롤러 (TODO)<br/>승인, 취소, 한도 조회, 수수료"]
-        C["서비스 계층<br/>(직접 추가)"]
-        D["수수료 코드<br/>(기존 코드 리팩토링)"]
-    end
-
-    subgraph STORE["한도 저장소 (수정 금지)"]
-        E["사용액 읽기, 쓰기"]
-        F["결제 기록 조회, 저장"]
-    end
-
-    A --> B --> C
-    C -->|"수수료 계산"| D
-    C -->|"호출마다 지연 있음"| E
-    C --> F
-
-    style B fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
-    style C fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
-    style D fill:#ffedd5,stroke:#f97316,stroke-width:2px
-    style E fill:#e2e8f0,stroke:#64748b
-    style F fill:#e2e8f0,stroke:#64748b
-```
+![결제 서버 구조: 결제 컨트롤러와 서비스 계층은 직접 구현하고, 수수료 정책은 리팩토링하며, 한도 저장소는 수정할 수 없습니다](docs/images/payment-architecture.svg)
 
 ## 3. 시작하기
 

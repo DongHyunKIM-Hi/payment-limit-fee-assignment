@@ -6,7 +6,7 @@ import lombok.Getter;
 
 /**
  * 이 클래스는 수정하지 않습니다.
- * 저장소에 남는 결제 기록 하나. {@code LimitStore}의 조회·저장 메서드에서 사용합니다.
+ * 저장소에 남는 결제 기록 하나. {@code LimitStore}의 조회, 저장 메서드에서 사용합니다.
  */
 @Getter
 @AllArgsConstructor

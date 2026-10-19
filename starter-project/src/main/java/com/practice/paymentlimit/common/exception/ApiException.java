@@ -4,7 +4,7 @@ import com.practice.paymentlimit.common.enums.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-/** 계약에 정의된 에러 상황(400/404/409/422)을 표현하는 예외. */
+/** API 명세에 정의된 에러 상황(400/404/409/422)을 표현하는 예외. */
 @Getter
 public class ApiException extends RuntimeException {
 

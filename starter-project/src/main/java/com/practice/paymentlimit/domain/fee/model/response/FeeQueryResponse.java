@@ -5,7 +5,7 @@ import com.practice.paymentlimit.common.enums.PayType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/** 수수료 계산(200) 응답. 계약이므로 필드를 바꾸지 않습니다. */
+/** 수수료 계산(200) 응답. API 명세의 일부이므로 필드를 바꾸지 않습니다. */
 @Getter
 @AllArgsConstructor
 public class FeeQueryResponse {

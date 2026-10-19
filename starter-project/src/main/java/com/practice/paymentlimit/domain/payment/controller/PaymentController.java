@@ -14,10 +14,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 결제 승인·취소·한도 조회·수수료 계산 API. 경로와 요청·응답 형식(계약)은 바꾸지 않습니다.
+ * 결제 승인, 취소, 한도 조회, 수수료 계산 API. 경로와 요청, 응답 형식은 바꾸지 않습니다.
  *
- * 아래 메서드는 아직 구현되어 있지 않습니다 ({@code TODO}). 가이드 5장(계약)과 6장(수수료 규칙)을
- * 읽고 구현하세요. 필요한 만큼 서비스·도메인 클래스를 자유롭게 추가해도 됩니다.
+ * 아래 메서드는 아직 구현되어 있지 않습니다 ({@code TODO}). README 5장(API 명세)과 6장(수수료 규칙)을
+ * 읽고 구현하세요. 필요한 만큼 서비스, 도메인 클래스를 자유롭게 추가해도 됩니다.
  */
 @RestController
 @RequiredArgsConstructor
@@ -29,9 +29,9 @@ public class PaymentController {
     @PostMapping("/api/v1/payments")
     public PaymentApprovedResponse approve(@Valid @RequestBody PaymentRequest request) {
         // TODO: 구현하세요.
-        //  - 가이드 5-1, 5-5의 규칙(중복 검사, 한도 검사, 수수료 계산)을 지키세요.
+        //  - README 5-1, 5-5의 규칙(중복 검사, 한도 검사, 수수료 계산)을 지키세요.
         //  - 동시에 여러 요청이 와도 규칙이 지켜져야 합니다 (5장, 8장 시나리오 참고).
-        //  - limitStore는 절대 수정하지 마세요. 그 위에서 여러분의 서비스 코드로 안전하게 만드세요.
+        //  - limitStore는 절대 수정하지 마세요. 그 위에서 서비스 코드로 안전하게 만드세요.
         throw new UnsupportedOperationException("TODO: 결제 승인을 구현하세요");
     }
 

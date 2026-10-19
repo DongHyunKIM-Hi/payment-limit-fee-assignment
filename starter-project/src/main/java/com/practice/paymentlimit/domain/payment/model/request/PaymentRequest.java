@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/** 결제 승인 요청. 계약이므로 필드를 추가·삭제·이름 변경하지 않습니다. */
+/** 결제 승인 요청. API 명세의 일부이므로 필드를 추가하거나 삭제하거나 이름을 바꾸지 않습니다. */
 @Getter
 @NoArgsConstructor
 public class PaymentRequest {

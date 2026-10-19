@@ -2,7 +2,7 @@ package com.practice.paymentlimit.domain.payment.model.response;
 
 import lombok.Getter;
 
-/** 결제 취소 성공(200) 응답. 계약이므로 필드를 바꾸지 않습니다. */
+/** 결제 취소 성공(200) 응답. API 명세의 일부이므로 필드를 바꾸지 않습니다. */
 @Getter
 public class CancelResponse {
 

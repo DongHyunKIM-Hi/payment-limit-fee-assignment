@@ -29,9 +29,9 @@ public class PaymentController {
     @PostMapping("/api/v1/payments")
     public PaymentApprovedResponse approve(@Valid @RequestBody PaymentRequest request) {
         // TODO: 구현하세요.
-        //  - README 5-1, 5-5의 규칙(중복 검사, 한도 검사, 수수료 계산)을 지키세요.
+        //  - README 5-2, 5-6의 규칙(중복 검사, 한도 검사, 수수료 계산)을 지키세요.
         //  - 동시에 여러 요청이 와도 규칙이 지켜져야 합니다 (5장, 8장 시나리오 참고).
-        //  - limitStore는 절대 수정하지 마세요. 그 위에서 서비스 코드로 안전하게 만드세요.
+        //  - LimitStore 클래스의 코드는 고치지 마세요. 메서드는 호출해도 됩니다. 동시 요청 처리는 LimitStore를 호출하는 서비스 코드에서 하세요.
         throw new UnsupportedOperationException("TODO: 결제 승인을 구현하세요");
     }
 
@@ -43,7 +43,7 @@ public class PaymentController {
 
     @GetMapping("/api/v1/users/{userId}/limit")
     public LimitResponse getLimit(@PathVariable String userId) {
-        // TODO: 구현하세요. 처음 보는 사용자는 usedAmount 0을 반환합니다.
+        // TODO: 구현하세요. 결제한 적이 없는 사용자는 usedAmount 0을 반환합니다.
         throw new UnsupportedOperationException("TODO: 한도 조회를 구현하세요");
     }
 

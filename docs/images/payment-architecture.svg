@@ -1,5 +1,5 @@
 <svg viewBox="20 20 970 500" width="970" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="결제 한도 서버 구조: 요청자가 결제 컨트롤러를 호출하면 서비스 계층이 수수료 정책과 수정 금지 한도 저장소를 사용해 처리한다">
-<title>과제 2 서버 구조</title>
+<title>결제 서버 구조</title>
 <desc>요청을 보내는 쪽 → 결제 컨트롤러(TODO, 직접 구현) → 서비스 계층(직접 추가) → 수수료 정책(리팩토링 대상) / 한도 저장소(수정 금지, 호출마다 지연).</desc>
 <rect width="1010" height="520" fill="#ffffff"/>
 
@@ -23,7 +23,7 @@
 <rect x="30" y="130" width="180" height="120" rx="10" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
 <text text-anchor="middle" font-family="sans-serif" fill="#312e81">
   <tspan x="120" y="185" font-size="14" font-weight="700">요청을 보내는 쪽</tspan>
-  <tspan x="120" y="207" font-size="12">(Swagger / curl)</tspan>
+  <tspan x="120" y="207" font-size="12">(curl, HTTP Client)</tspan>
 </text>
 
 <!-- 컨트롤러 (TODO, 직접 구현: 파란색) -->

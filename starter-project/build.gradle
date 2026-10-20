@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.practice.paymentlimit'
 version = '0.0.1-SNAPSHOT'
-description = '과제 2. 결제 한도 차감 + 수수료 정책 - 시작 프로젝트'
+description = '결제 한도 차감과 수수료 정책 시작 프로젝트'
 
 java {
 	toolchain {

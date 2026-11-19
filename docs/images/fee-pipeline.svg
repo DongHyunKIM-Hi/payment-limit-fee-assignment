@@ -1,0 +1,72 @@
+<svg viewBox="10 10 1130 300" width="1130" height="300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="수수료 계산 5단계: 면제 판정, 수수료율 결정, 고액 감면, 절사와 최소, 상한을 12,350원 BASIC 국내 결제 예시로 보여준다">
+<title>수수료 계산 파이프라인</title>
+<desc>입력(12,350원, BASIC, 국내)이 면제 판정 → 수수료율 결정 → 고액 감면 → 버림과 최소 → 상한의 5단계를 거쳐 최종 수수료 123원이 되는 과정.</desc>
+<rect width="1150" height="320" fill="#ffffff"/>
+
+<defs>
+  <marker id="fp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+  </marker>
+</defs>
+
+<!-- 입력 -->
+<rect x="20" y="70" width="140" height="80" rx="10" fill="#eef2ff" stroke="#818cf8" stroke-width="1.5"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#312e81">
+  <tspan x="90" y="95" font-size="12" font-weight="700">입력 예시</tspan>
+  <tspan x="90" y="113" font-size="11">12,350원</tspan>
+  <tspan x="90" y="129" font-size="11">BASIC, 국내</tspan>
+</text>
+
+<!-- 5단계 박스 -->
+<!-- 1 면제 판정 -->
+<rect x="200" y="70" width="180" height="80" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#334155">
+  <tspan x="290" y="92" font-size="13" font-weight="700">① 면제 판정</tspan>
+  <tspan x="290" y="108" font-size="10.5">R1 → R2</tspan>
+</text>
+<text x="290" y="180" text-anchor="middle" font-size="11.5" fill="#0f766e" font-family="sans-serif" font-weight="700">면제 아님</text>
+
+<!-- 2 수수료율 결정 -->
+<rect x="420" y="70" width="180" height="80" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#334155">
+  <tspan x="510" y="92" font-size="13" font-weight="700">② 수수료율 결정</tspan>
+  <tspan x="510" y="108" font-size="10.5">R3~R7</tspan>
+</text>
+<text x="510" y="180" text-anchor="middle" font-size="11.5" fill="#0f766e" font-family="sans-serif" font-weight="700">100bp (BASIC 국내)</text>
+
+<!-- 3 고액 감면 -->
+<rect x="640" y="70" width="180" height="80" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#334155">
+  <tspan x="730" y="92" font-size="13" font-weight="700">③ 고액 감면</tspan>
+  <tspan x="730" y="108" font-size="10.5">R8 (≥1,000,000원 −20bp)</tspan>
+</text>
+<text x="730" y="180" text-anchor="middle" font-size="11.5" fill="#0f766e" font-family="sans-serif" font-weight="700">해당 없음, 100bp 유지</text>
+
+<!-- 4 버림과 최소 -->
+<rect x="860" y="70" width="150" height="80" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#334155">
+  <tspan x="935" y="92" font-size="13" font-weight="700">④ 버림과 최소</tspan>
+  <tspan x="935" y="108" font-size="10.5">R9</tspan>
+</text>
+<text text-anchor="middle" font-family="sans-serif" fill="#0f766e" font-weight="700">
+  <tspan x="935" y="176" font-size="11">123.5원 → 123원</tspan>
+  <tspan x="935" y="192" font-size="11">(100원 이상이라 유지)</tspan>
+</text>
+
+<!-- 5 상한 -->
+<rect x="1030" y="70" width="90" height="80" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+<text text-anchor="middle" font-family="sans-serif" fill="#166534">
+  <tspan x="1075" y="92" font-size="13" font-weight="700">⑤ 상한</tspan>
+  <tspan x="1075" y="108" font-size="10.5">R10</tspan>
+</text>
+<text x="1075" y="180" text-anchor="middle" font-size="12" fill="#166534" font-family="sans-serif" font-weight="700">최종 123원</text>
+
+<!-- 화살표 -->
+<line x1="160" y1="110" x2="198" y2="110" stroke="#64748b" stroke-width="1.5" marker-end="url(#fp-arrow)"/>
+<line x1="380" y1="110" x2="418" y2="110" stroke="#64748b" stroke-width="1.5" marker-end="url(#fp-arrow)"/>
+<line x1="600" y1="110" x2="638" y2="110" stroke="#64748b" stroke-width="1.5" marker-end="url(#fp-arrow)"/>
+<line x1="820" y1="110" x2="858" y2="110" stroke="#64748b" stroke-width="1.5" marker-end="url(#fp-arrow)"/>
+<line x1="1010" y1="110" x2="1028" y2="110" stroke="#64748b" stroke-width="1.5" marker-end="url(#fp-arrow)"/>
+
+<text x="20" y="230" font-size="11" fill="#94a3b8" font-family="sans-serif" font-style="italic">위 칸(회색)은 각 단계에서 참고하는 규칙, 아래 칸(초록 글씨)은 12,350원 BASIC 국내 예시가 그 단계를 지날 때의 값입니다.</text>
+</svg>

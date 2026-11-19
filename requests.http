@@ -1,0 +1,135 @@
+### 결제 한도 차감과 수수료 정책 요청 예시 (IntelliJ HTTP Client 형식)
+### 사용법: 각 ### 블록 왼쪽의 초록색 화살표를 눌러 실행하세요.
+### 먼저 구현한 서버를 8080 포트로 실행하세요. (Docker나 다른 서버는 필요 없습니다.)
+###
+### 이 파일은 비어 있는 서버 기준입니다. 서버를 재시작하지 않고 두 번째로 실행하면
+### 결제 ID가 이미 있어서 S1 정상 승인, S6 한도 경계, S8 결제 취소가 200이 아니라 409가 됩니다.
+### 정상입니다. 처음부터 다시 확인하려면 서버를 재시작해 주세요(데이터가 메모리에만 있어 지워집니다).
+
+@host = http://localhost:8080
+
+### S1. 정상 승인: 200, fee: 250, remainingLimit: 950000 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-1001",
+  "userId": "U-1",
+  "amount": 50000,
+  "grade": "GOLD",
+  "payType": "DOMESTIC"
+}
+
+### S2. 같은 결제 ID로 다시 승인 요청: 409 DUPLICATE_PAYMENT 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-1001",
+  "userId": "U-1",
+  "amount": 50000,
+  "grade": "GOLD",
+  "payType": "DOMESTIC"
+}
+
+### S1 확인. 한도 조회: usedAmount 50000 기대
+GET {{host}}/api/v1/users/U-1/limit
+
+### S7. 입력 오류 (금액 0): 400 INVALID_REQUEST 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-1002",
+  "userId": "U-1",
+  "amount": 0,
+  "grade": "GOLD",
+  "payType": "DOMESTIC"
+}
+
+### S8. 결제 취소: 200 + 한도 복원 기대
+POST {{host}}/api/v1/payments/P-1001/cancel
+
+### S8. 없는 결제 취소: 404 PAYMENT_NOT_FOUND 기대
+POST {{host}}/api/v1/payments/NO-SUCH-ID/cancel
+
+### S10. 취소한 결제 ID로 다시 승인: 409 기대 (ID 재사용 불가)
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-1001",
+  "userId": "U-1",
+  "amount": 1000,
+  "grade": "BASIC",
+  "payType": "DOMESTIC"
+}
+
+### S6. 한도 경계: 정확히 1,000,000원 승인: 200 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-2001",
+  "userId": "U-2",
+  "amount": 1000000,
+  "grade": "BASIC",
+  "payType": "DOMESTIC"
+}
+
+### S6. 이어서 1원 요청: 422 LIMIT_EXCEEDED 기대
+POST {{host}}/api/v1/payments
+Content-Type: application/json
+
+{
+  "paymentId": "P-2002",
+  "userId": "U-2",
+  "amount": 1,
+  "grade": "BASIC",
+  "payType": "DOMESTIC"
+}
+
+### S12. 수수료 계산 예시: fee: 250 기대 (승인 API의 fee와 같아야 함)
+GET {{host}}/api/v1/fees?grade=GOLD&payType=DOMESTIC&amount=50000
+
+### S12. 수수료 면제 경계: fee: 0 기대 (1,000원 미만)
+GET {{host}}/api/v1/fees?grade=BASIC&payType=DOMESTIC&amount=999
+
+### S12. 수수료 최소값: fee: 100 기대
+GET {{host}}/api/v1/fees?grade=BASIC&payType=DOMESTIC&amount=1000
+
+### S12. 수수료 고액 감면 경계: fee: 8000 기대 (1,000,000원 이상)
+GET {{host}}/api/v1/fees?grade=BASIC&payType=DOMESTIC&amount=1000000
+
+### S12. 수수료 상한: fee: 50000 기대
+GET {{host}}/api/v1/fees?grade=BASIC&payType=OVERSEAS&amount=10000000
+
+### S12. VIP 국내는 면제: fee: 0 기대
+GET {{host}}/api/v1/fees?grade=VIP&payType=DOMESTIC&amount=5000000
+
+### S7. 수수료 API 입력 오류: 400 기대
+GET {{host}}/api/v1/fees?grade=GOLD&payType=DOMESTIC&amount=-5
+
+
+### ------------------------------------------------------------------
+### 동시 시나리오(S3, S4, S5, S9, S11)는 이 파일에 없습니다.
+### IntelliJ HTTP Client는 요청을 하나씩 순서대로 보내기 때문에 동시 요청을 만들 수 없습니다.
+### 7장 문제 2의 안내대로 테스트 코드로 확인해 주세요.
+###
+### 테스트를 쓰기 전에 터미널에서 먼저 눈으로 보고 싶다면 아래처럼 보낼 수 있습니다.
+### 서버를 8080 포트로 실행한 상태에서 터미널에 붙여 넣습니다.
+###
+### # S3. 같은 결제 ID 10건을 동시에: 200이 1건, 409가 9건이어야 합니다.
+### ID=P-$RANDOM
+### seq 10 | xargs -P 10 -I{} curl -s -o /dev/null -w '%{http_code}\n' \
+###   -X POST http://localhost:8080/api/v1/payments -H 'Content-Type: application/json' \
+###   -d "{\"paymentId\":\"$ID\",\"userId\":\"U-1\",\"amount\":50000,\"grade\":\"BASIC\",\"payType\":\"DOMESTIC\"}" | sort | uniq -c
+###
+### # S5. 400,000원 3건을 동시에: 200이 2건, 422가 1건이고 사용액은 800,000이어야 합니다.
+### U=U-$RANDOM
+### seq 3 | xargs -P 3 -I{} curl -s -o /dev/null -w '%{http_code}\n' \
+###   -X POST http://localhost:8080/api/v1/payments -H 'Content-Type: application/json' \
+###   -d "{\"paymentId\":\"P-$U-{}\",\"userId\":\"$U\",\"amount\":400000,\"grade\":\"BASIC\",\"payType\":\"DOMESTIC\"}" | sort | uniq -c
+### curl -s http://localhost:8080/api/v1/users/$U/limit
+###
+### 제출물에는 이 명령이 아니라 테스트 코드가 필요합니다. 평가에서 보는 것은 테스트입니다.
